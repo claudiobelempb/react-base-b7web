@@ -1,14 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { InputDefaultContainer } from "./styles";
 
-const InputDefault = ({ placeholder, type, onChangerInput }) => {
+const InputDefault = ({ placeholder, type, onKeyUpInput }) => {
   const [value, setValue] = useState("");
+  // console.log(value);
 
-  useEffect(() => {
-    if (onChangerInput) {
-      onChangerInput(value);
+  function handlerKeyUp(e) {
+    if (e.keyCode === 13) {
+      if (onKeyUpInput) {
+        onKeyUpInput(value);
+      }
+      setValue("");
     }
-  }, [onChangerInput, value]);
+  }
 
   return (
     <>
@@ -16,6 +20,7 @@ const InputDefault = ({ placeholder, type, onChangerInput }) => {
         type={type ?? "text"}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        onKeyUp={handlerKeyUp}
         placeholder={placeholder ?? "Search..."}
       />
     </>

@@ -1,44 +1,51 @@
 import { useState } from "react";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 import { InputDefault } from "./components/InputDefault";
 
 function App() {
-  const [name, setName] = useState("");
-  const [tasks, setTasks] = useState([]);
-
-  const handleName = (value) => {
-    setName(value);
-  };
+  const [task, setTask] = useState([]);
+  console.log(task);
 
   useEffect(() => {
-    setTasks([
-      { id: 1, title: "Comprar o bolo", done: false },
-      { id: 2, title: "Pegar o cachorro no petshop", done: true },
-      { id: 3, title: "Gravar aula", done: false },
+    setTask([
+      { title: "Comprar o bolo", done: false },
+      { title: "Pegar o cachorro no petshop", done: true },
+      { title: "Gravar aula", done: false },
     ]);
   }, []);
+
+  function addAction(item) {
+    let newTask = [...task];
+    newTask.push({
+      title: item,
+      done: false,
+    });
+    setTask(newTask);
+  }
 
   return (
     <div className="App">
       <>
         <h1>Lista de Tarefas</h1>
 
-        <InputDefault type={"search"} onChangerInput={() => console.log(1)} />
-
+        <InputDefault
+          placeholder={"Adicionar nova Tarefa"}
+          onKeyUpInput={addAction}
+        />
         <hr />
 
         <ul>
-          {tasks.map((task) => (
-            <li key={task.id}>
-              {task.done && (
+          {task.map((item, index) => (
+            <li key={index}>
+              {item.done && (
                 <del>
-                  {task.id}: {task.title} - {task.done.toString()}
+                  {index}: {item.title} - {item.done.toString()}
                 </del>
               )}
 
-              {!task.done && (
+              {!item.done && (
                 <>
-                  {task.id}: {task.title} - {task.done.toString()}
+                  {index}: {item.title} - {item.done.toString()}
                 </>
               )}
             </li>
