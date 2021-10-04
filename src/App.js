@@ -23,6 +23,13 @@ function App() {
     setTask(newTask);
   }
 
+  function handlerToggleDone(index) {
+    let newTask = [...task];
+    console.log(newTask);
+    newTask[index].done = !newTask[index].done;
+    setTask(newTask);
+  }
+
   return (
     <div className="App">
       <>
@@ -36,18 +43,23 @@ function App() {
 
         <ul>
           {task.map((item, index) => (
-            <li key={index}>
+            <li key={index} onClick={() => handlerToggleDone(index)}>
               {item.done && (
                 <del>
-                  {index}: {item.title} - {item.done.toString()}
+                  {index}: {item.title}
                 </del>
               )}
 
               {!item.done && (
                 <>
-                  {index}: {item.title} - {item.done.toString()}
+                  {index}: {item.title}
                 </>
               )}
+
+              {/* <button onClick={() => handlerToggleDone(index)}>
+                {item.done && "Desfazer"}
+                {!item.done && "Fazer"}
+              </button> */}
             </li>
           ))}
         </ul>
